@@ -1,4 +1,4 @@
 export default async function getPostText() {
-  // Generate the text for your post here. You can return a string or a promise that resolves to a string
-  return "More posting soon";
+  const postText = "More posting soon";
+  return postText;
 }

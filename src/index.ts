@@ -14,9 +14,9 @@ async function main() {
         }
         
         // Post text
-        const text = await Bot.run(getPostText);
+        //const text = await Bot.run(getPostText);
+        //console.log(`[${new Date().toISOString()}] Posted: "${text}"`);
         
-        console.log(`[${new Date().toISOString()}] Posted: "${text}"`);
     } catch (error) {
         console.error('Failed to post:', error);
         process.exit(1);
