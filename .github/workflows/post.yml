@@ -3,7 +3,7 @@ name: "Post to Bluesky"
 on:
   workflow_dispatch:  # allows manual triggers
   schedule:           # adds cron schedule
-    - cron: "26 14,17 * * *"
+    - cron: "9 * * * *"
 
 jobs:
   build:
