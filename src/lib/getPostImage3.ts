@@ -78,7 +78,7 @@ export default async function getPostImage() {
         const agent = new BskyAgent({ service: 'https://bsky.social' });
         await agent.login({
             identifier: process.env.BSKY_HANDLE_3!,
-            password: process.env.BSKY_PASSWORD_3!
+            password: process.env.BSKY_PASSWORD!
         });
 
         // Upload compressed image as blob
