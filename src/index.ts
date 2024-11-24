@@ -6,7 +6,7 @@ async function main() {
         const botIndex = process.env.BOT_INDEX ? parseInt(process.env.BOT_INDEX) : undefined;
 
         if (typeof botIndex === 'number') {
-            const handle = process.env[`BSKY_HANDLE_${botIndex + 1}`];
+            const handle = process.env.BSKY_HANDLE;
             const password = process.env.BSKY_PASSWORD;
 
             if (!handle || !password) {
