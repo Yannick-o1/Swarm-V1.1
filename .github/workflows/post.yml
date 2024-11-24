@@ -1,8 +1,8 @@
 name: "Post Bot 1"
 
 on:
-  workflow_dispatch:  # allows manual triggers
-  schedule:           # adds cron schedule
+  workflow_dispatch:
+  schedule:
     - cron: "9 * * * *"  # Bot 1 posts at 9 minutes past every hour
 
 jobs:
@@ -13,7 +13,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.17.0' 
+          node-version: '18.17.0'
       - run: npm ci
       - run: npm run build
       - name: Send post
