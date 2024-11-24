@@ -28,29 +28,29 @@ const BOTS: BotConfig[] = [
         message: "Check out this image!"
     },
     {
-        handle: process.env.BSKY_HANDLE_2!,
-        password: process.env.BSKY_PASSWORD_2!,
+        handle: process.env.BSKY_HANDLE!,
+        password: process.env.BSKY_PASSWORD!,
         imageDir: './images2',
         indexFile: './lastIndex2.txt',
         message: "Bot 2's custom message"
     },
     {
-        handle: process.env.BSKY_HANDLE_3!,
-        password: process.env.BSKY_PASSWORD_3!,
+        handle: process.env.BSKY_HANDLE!,
+        password: process.env.BSKY_PASSWORD!,
         imageDir: './images3',
         indexFile: './lastIndex3.txt',
         message: "Bot 3's custom message"
     },
     {
-        handle: process.env.BSKY_HANDLE_4!,
-        password: process.env.BSKY_PASSWORD_4!,
+        handle: process.env.BSKY_HANDLE!,
+        password: process.env.BSKY_PASSWORD!,
         imageDir: './images4',
         indexFile: './lastIndex4.txt',
         message: "Bot 4's custom message"
     },
     {
-        handle: process.env.BSKY_HANDLE_5!,
-        password: process.env.BSKY_PASSWORD_5!,
+        handle: process.env.BSKY_HANDLE!,
+        password: process.env.BSKY_PASSWORD!,
         imageDir: './images5',
         indexFile: './lastIndex5.txt',  
         message: "Bot 5's custom message"
