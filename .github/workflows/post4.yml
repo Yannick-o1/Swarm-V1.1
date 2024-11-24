@@ -1,8 +1,9 @@
 name: "Post Bot 4"
 
 on:
+  workflow_dispatch:
   schedule:
-    - cron: "45 * * * *"  # Bot 4 posts at 45 minutes past every hour
+    - cron: "52 * * * *"  # Bot 4 posts at 45 minutes past every hour
 
 jobs:
   build:
