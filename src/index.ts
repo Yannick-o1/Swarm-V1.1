@@ -10,7 +10,7 @@ async function main() {
             if (typeof imagePost !== 'string') {
                 const bot = new Bot(Bot.defaultOptions.service);
                 await bot.login({
-                    identifier: process.env[`BSKY_HANDLE_${botIndex + 1}`] || process.env.BSKY_HANDLE!,
+                    identifier: process.env[`BSKY_HANDLE_${botIndex + 1}`],
                     password: process.env.BSKY_PASSWORD!
                 });
                 await bot.post(imagePost);
