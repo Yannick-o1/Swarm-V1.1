@@ -1,33 +1,42 @@
 import Bot from "./lib/bot.js";
-import getPostImage from "./lib/getPostImage.js";
-import getPostImage2 from "./lib/getPostImage2.js";
-import getPostImage3 from "./lib/getPostImage3.js";
-import getPostImage4 from "./lib/getPostImage4.js";
-import getPostImage5 from "./lib/getPostImage5.js";
+import { postForBot } from "./lib/getPostImage.js";
 
-async function postWithBot(getImage: typeof getPostImage, configPath: string) {
-    const imagePost = await getImage();
-    if (typeof imagePost !== 'string') {
-        const bot = new Bot(Bot.defaultOptions.service);
-        await bot.login(await import(configPath).then(m => m.bskyAccount));
-        await bot.post(imagePost);
-    }
-}
-
+/**
+ * Main function that handles posting for all bots
+ * Iterates through 5 bots and posts images using their respective credentials
+ */
 async function main() {
     try {
-        // Post with all bots
-        await postWithBot(getPostImage, './lib/config.js');
-        await postWithBot(getPostImage2, './lib/config2.js');
-        await postWithBot(getPostImage3, './lib/config3.js');
-        await postWithBot(getPostImage4, './lib/config4.js');
-        await postWithBot(getPostImage5, './lib/config5.js');
+        // Iterate through all 5 bots (0-4)
+        for (let i = 0; i < 5; i++) {
+            // Get image post data for current bot
+            const imagePost = await postForBot(i);
+            
+            // Only proceed if we got a valid post object (not an error string)
+            if (typeof imagePost !== 'string') {
+                // Create new bot instance with default service
+                const bot = new Bot(Bot.defaultOptions.service);
+                
+                // Login with either numbered credentials (BSKY_HANDLE_1, etc) 
+                // or fall back to default credentials for first bot
+                await bot.login({
+                    identifier: process.env[`BSKY_HANDLE_${i + 1}`] || process.env.BSKY_HANDLE!,
+                    password: process.env[`BSKY_PASSWORD_${i + 1}`] || process.env.BSKY_PASSWORD!
+                });
+                
+                // Post the image with associated text
+                await bot.post(imagePost);
+            }
+        }
         
+        // Log success message with timestamp
         console.log(`[${new Date().toISOString()}] Posted from all bots`);
     } catch (error) {
+        // Log any errors and exit with failure code
         console.error('Failed to post:', error);
         process.exit(1);
     }
 }
 
+// Execute main function
 main();
