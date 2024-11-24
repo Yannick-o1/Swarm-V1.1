@@ -22,10 +22,10 @@ jobs:
           BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
           BSKY_PASSWORD: ${{ secrets.BSKY_PASSWORD }}
           BSKY_HANDLE_2: ${{ secrets.BSKY_HANDLE_2 }}
-          BSKY_PASSWORD_2: ${{ secrets.BSKY_PASSWORD_2 }}
+          BSKY_PASSWORD_2: ${{ secrets.BSKY_PASSWORD }}
           BSKY_HANDLE_3: ${{ secrets.BSKY_HANDLE_3 }}
-          BSKY_PASSWORD_3: ${{ secrets.BSKY_PASSWORD_3 }}
+          BSKY_PASSWORD_3: ${{ secrets.BSKY_PASSWORD }}
           BSKY_HANDLE_4: ${{ secrets.BSKY_HANDLE_4 }}
-          BSKY_PASSWORD_4: ${{ secrets.BSKY_PASSWORD_4 }}
+          BSKY_PASSWORD_4: ${{ secrets.BSKY_PASSWORD }}
           BSKY_HANDLE_5: ${{ secrets.BSKY_HANDLE_5 }}
-          BSKY_PASSWORD_5: ${{ secrets.BSKY_PASSWORD_5 }}
+          BSKY_PASSWORD_5: ${{ secrets.BSKY_PASSWORD }}
