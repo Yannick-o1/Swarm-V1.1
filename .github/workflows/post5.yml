@@ -17,7 +17,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - name: Send post
-        run: BOT_INDEX=4 npm start
+        run: BOT_INDEX=5 npm start
         env:
           BSKY_HANDLE: ${{ secrets.BSKY_HANDLE_5 }}
           BSKY_PASSWORD: ${{ secrets.BSKY_PASSWORD }}

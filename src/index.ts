@@ -14,7 +14,7 @@ async function main() {
                     password: process.env.BSKY_PASSWORD!
                 });
                 await bot.post(imagePost);
-                console.log(`[${new Date().toISOString()}] Posted from bot ${botIndex}`);
+                console.log(`[${new Date().toISOString()}] Posted from bot ${botIndex + 1}`);
             }
         } else {
             console.error('BOT_INDEX environment variable is not set or invalid.');
