@@ -1,0 +1,23 @@
+name: "Post to Bluesky Bot 5"
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "22 * * * *"  # Different minute for each bot
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.17.0'
+      - run: npm ci
+      - run: npm run build
+      - name: Send post
+        run: npm run start5  # Different start script for each bot
+        env:
+          BSKY_HANDLE_5: ${{ secrets.BSKY_HANDLE_5 }}
+          BSKY_PASSWORD_5: ${{ secrets.BSKY_PASSWORD_5 }}
