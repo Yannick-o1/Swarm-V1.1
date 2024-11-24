@@ -6,12 +6,19 @@ async function main() {
         const botIndex = process.env.BOT_INDEX ? parseInt(process.env.BOT_INDEX) : undefined;
 
         if (typeof botIndex === 'number') {
+            const handle = process.env[`BSKY_HANDLE_${botIndex + 1}`];
+            const password = process.env.BSKY_PASSWORD;
+
+            if (!handle || !password) {
+                throw new Error('Environment variables for handle or password are not set.');
+            }
+
             const imagePost = await postForBot(botIndex);
             if (typeof imagePost !== 'string') {
                 const bot = new Bot(Bot.defaultOptions.service);
                 await bot.login({
-                    identifier: process.env[`BSKY_HANDLE_${botIndex + 1}`],
-                    password: process.env.BSKY_PASSWORD!
+                    identifier: handle,
+                    password: password
                 });
                 await bot.post(imagePost);
                 console.log(`[${new Date().toISOString()}] Posted from bot ${botIndex + 1}`);
