@@ -1,9 +1,8 @@
-name: "Post Bot 1"
+name: "Post Bot 5"
 
 on:
-  workflow_dispatch:  # allows manual triggers
-  schedule:           # adds cron schedule
-    - cron: "9 * * * *"  # Bot 1 posts at 9 minutes past every hour
+  schedule:
+    - cron: "57 * * * *"  # Bot 5 posts at 57 minutes past every hour
 
 jobs:
   build:
@@ -13,11 +12,11 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.17.0' 
+          node-version: '18.17.0'
       - run: npm ci
       - run: npm run build
       - name: Send post
-        run: BOT_INDEX=0 npm start
+        run: BOT_INDEX=4 npm start
         env:
-          BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
+          BSKY_HANDLE: ${{ secrets.BSKY_HANDLE_5 }}
           BSKY_PASSWORD: ${{ secrets.BSKY_PASSWORD }}
