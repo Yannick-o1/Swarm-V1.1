@@ -16,6 +16,10 @@ jobs:
           node-version: '18.17.0'
       - run: npm ci
       - run: npm run build
+      - name: Download images
+        uses: actions/download-artifact@v3
+        with:
+          name: images
       - name: Send post
         run: BOT_INDEX=1 npm start
         env:

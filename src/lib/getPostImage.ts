@@ -23,7 +23,7 @@ const BOTS: BotConfig[] = [
     {
         handle: process.env.BSKY_HANDLE!,
         password: process.env.BSKY_PASSWORD!,
-        imageDir: './images',
+        imageDir: './images1',
         indexFile: './lastIndex.txt',
         message: "Check out this image!"
     },
