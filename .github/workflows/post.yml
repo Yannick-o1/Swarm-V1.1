@@ -22,7 +22,7 @@ jobs:
       - name: Send posts
         run: npm start
         env:
-          BSKY_HANDLE_1: ${{ secrets.BSKY_HANDLE_1 }}
+          BSKY_HANDLE_1: ${{ secrets.BSKY_HANDLE }}
           BSKY_HANDLE_2: ${{ secrets.BSKY_HANDLE_2 }}
           BSKY_HANDLE_3: ${{ secrets.BSKY_HANDLE_3 }}
           BSKY_HANDLE_4: ${{ secrets.BSKY_HANDLE_4 }}
