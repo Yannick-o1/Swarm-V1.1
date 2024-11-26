@@ -1,27 +1,46 @@
-name: "Post Bot 1"
+name: "Post All Bots"
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "9 * * * *"  # Bot 1 posts at 9 minutes past every hour
+    - cron: "9 * * * *"  # Adjust the schedule as needed
 
 jobs:
-  build:
+  post_bots:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18.17.0'
+
       - run: npm ci
       - run: npm run build
+
       - name: Download images
         uses: actions/download-artifact@v3
         with:
           name: images
-      - name: Send post
-        run: BOT_INDEX=0 npm start
+
+      - name: Download index file
+        uses: actions/download-artifact@v3
+        with:
+          name: index-file
+
+      - name: Send posts
+        run: npm start
         env:
-          BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
+          BSKY_HANDLE_1: ${{ secrets.BSKY_HANDLE_1 }}
+          BSKY_HANDLE_2: ${{ secrets.BSKY_HANDLE_2 }}
+          BSKY_HANDLE_3: ${{ secrets.BSKY_HANDLE_3 }}
+          BSKY_HANDLE_4: ${{ secrets.BSKY_HANDLE_4 }}
+          BSKY_HANDLE_5: ${{ secrets.BSKY_HANDLE_5 }}
           BSKY_PASSWORD: ${{ secrets.BSKY_PASSWORD }}
+
+      - name: Upload index file
+        uses: actions/upload-artifact@v3
+        with:
+          name: index-file
+          path: lastIndex.txt

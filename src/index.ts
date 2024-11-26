@@ -1,36 +1,57 @@
 import Bot from "./lib/bot.js";
-import { postForBot } from "./lib/getPostImage.js";
+import { postForBot, getNextImagePath } from "./lib/getPostImage.js";
+import fs from 'node:fs/promises';
 
 async function main() {
-    try {
-        const botIndex = process.env.BOT_INDEX ? parseInt(process.env.BOT_INDEX) : undefined;
+  try {
+    const totalBots = 5; // Number of bots
+    const password = process.env.BSKY_PASSWORD;
 
-        if (typeof botIndex === 'number') {
-            const handle = process.env.BSKY_HANDLE;
-            const password = process.env.BSKY_PASSWORD;
-
-            if (!handle || !password) {
-                throw new Error('Environment variables for handle or password are not set.');
-            }
-
-            const imagePost = await postForBot(botIndex);
-            if (typeof imagePost !== 'string') {
-                const bot = new Bot(Bot.defaultOptions.service);
-                await bot.login({
-                    identifier: handle,
-                    password: password
-                });
-                await bot.post(imagePost);
-                console.log(`[${new Date().toISOString()}] Posted from bot ${botIndex + 1}`);
-            }
-        } else {
-            console.error('BOT_INDEX environment variable is not set or invalid.');
-            process.exit(1);
-        }
-    } catch (error) {
-        console.error('Failed to post:', error);
-        process.exit(1);
+    if (!password) {
+      throw new Error('Environment variable for password is not set.');
     }
+
+    // Read and update the index once
+    const indexFile = './lastIndex.txt';
+    let currentIndex = 0;
+    try {
+      const lastIndex = await fs.readFile(indexFile, 'utf8');
+      currentIndex = parseInt(lastIndex);
+    } catch (error) {
+      // Start from 0 if no index file exists
+      currentIndex = 0;
+    }
+
+    const nextIndex = currentIndex + 1;
+    await fs.writeFile(indexFile, nextIndex.toString());
+
+    for (let botIndex = 0; botIndex < totalBots; botIndex++) {
+      const botNumber = botIndex + 1;
+      const handle = process.env[`BSKY_HANDLE_${botNumber}`];
+
+      if (!handle) {
+        console.error(`Missing handle for bot ${botNumber}`);
+        continue;
+      }
+
+      const imagePost = await postForBot(botIndex, currentIndex);
+
+      if (typeof imagePost !== 'string') {
+        const bot = new Bot(Bot.defaultOptions.service);
+        await bot.login({
+          identifier: handle,
+          password: password,
+        });
+        await bot.post(imagePost);
+        console.log(`[${new Date().toISOString()}] Posted from bot ${botNumber}`);
+      } else {
+        console.error(`Bot ${botNumber} failed to create a post: ${imagePost}`);
+      }
+    }
+  } catch (error) {
+    console.error('Failed to post:', error);
+    process.exit(1);
+  }
 }
 
 main();
