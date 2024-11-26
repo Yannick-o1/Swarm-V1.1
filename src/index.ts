@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import Bot from "./lib/bot.js";
 import { postForBot } from "./lib/getPostImage.js";
 import fs from 'node:fs/promises';
@@ -11,18 +12,8 @@ async function main() {
       throw new Error('BSKY_PASSWORD is not set in the environment variables.');
     }
 
-    const indexFile = './lastIndex.txt';
-    let currentIndex = 0;
-    try {
-      const lastIndex = await fs.readFile(indexFile, 'utf8');
-      currentIndex = parseInt(lastIndex);
-    } catch (error) {
-      // Start from 0 if no index file exists
-      currentIndex = 0;
-    }
-
-    const nextIndex = currentIndex + 1;
-    await fs.writeFile(indexFile, nextIndex.toString());
+    // Get the GitHub Actions run number
+    const runNumber = parseInt(process.env.GITHUB_RUN_NUMBER || '1', 10);
 
     for (let botIndex = 0; botIndex < totalBots; botIndex++) {
       const botNumber = botIndex + 1;
@@ -33,7 +24,8 @@ async function main() {
         continue;
       }
 
-      const imagePost = await postForBot(botIndex, currentIndex);
+      // Pass the run number to postForBot
+      const imagePost = await postForBot(botIndex, runNumber);
 
       if (typeof imagePost !== 'string') {
         const bot = new Bot(Bot.defaultOptions.service);

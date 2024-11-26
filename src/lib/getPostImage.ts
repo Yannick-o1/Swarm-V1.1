@@ -4,17 +4,12 @@ import atproto from '@atproto/api';
 import sharp from 'sharp';
 const { BskyAgent } = atproto;
 
-
 interface BotConfig {
-    handle: string;      // Bot's Bluesky handle
-    password: string;    // Bot's password
-    imageDir: string;    // Directory containing bot's images
-    indexFile: string;   // File tracking current image index
-    message: string;     // Custom message for posts
+  handle: string;      // Bot's Bluesky handle
+  password: string;    // Bot's password
+  imageDir: string;    // Directory containing bot's images
+  message: string;     // Custom message for posts
 }
-
-// Default index tracking file
-const INDEX_FILE = './lastIndex.txt';
 
 // Configuration for all bots with their respective settings
 const BOTS: BotConfig[] = [
@@ -22,40 +17,35 @@ const BOTS: BotConfig[] = [
     handle: process.env.BSKY_HANDLE_1!,
     password: process.env.BSKY_PASSWORD!,
     imageDir: './images1',
-    indexFile: './lastIndex.txt',
     message: "🔥",
   },
   {
     handle: process.env.BSKY_HANDLE_2!,
     password: process.env.BSKY_PASSWORD!,
     imageDir: './images2',
-    indexFile: './lastIndex.txt',
     message: "🔥",
   },
   {
     handle: process.env.BSKY_HANDLE_3!,
     password: process.env.BSKY_PASSWORD!,
     imageDir: './images3',
-    indexFile: './lastIndex.txt',
     message: "🔥",
   },
   {
     handle: process.env.BSKY_HANDLE_4!,
     password: process.env.BSKY_PASSWORD!,
     imageDir: './images4',
-    indexFile: './lastIndex.txt',
     message: "🔥",
   },
   {
     handle: process.env.BSKY_HANDLE_5!,
     password: process.env.BSKY_PASSWORD!,
     imageDir: './images5',
-    indexFile: './lastIndex.txt',
     message: "🔥",
   },
 ];
 
-export async function getNextImagePath(botConfig: BotConfig, currentIndex: number): Promise<string> {
+export async function getNextImagePath(botConfig: BotConfig, runNumber: number): Promise<string> {
   try {
     // Read all images from bot's directory
     const files = await fs.readdir(botConfig.imageDir);
@@ -68,8 +58,8 @@ export async function getNextImagePath(botConfig: BotConfig, currentIndex: numbe
       throw new Error('No images found in directory');
     }
 
-    // Calculate next index with wraparound
-    const nextIndex = currentIndex >= imageFiles.length - 1 ? 0 : currentIndex + 1;
+    // Calculate index based on run number
+    const currentIndex = (runNumber - 1) % imageFiles.length;
 
     return path.join(botConfig.imageDir, imageFiles[currentIndex]);
   } catch (error) {
@@ -78,10 +68,10 @@ export async function getNextImagePath(botConfig: BotConfig, currentIndex: numbe
   }
 }
 
-export async function postForBot(botIndex: number, currentIndex: number) {
+export async function postForBot(botIndex: number, runNumber: number) {
   try {
     const botConfig = BOTS[botIndex];
-    const imagePath = await getNextImagePath(botConfig, currentIndex);
+    const imagePath = await getNextImagePath(botConfig, runNumber);
 
     // Process and compress image
     const ext = path.extname(imagePath).toLowerCase();
