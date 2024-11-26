@@ -4,9 +4,7 @@ import atproto from '@atproto/api';
 import sharp from 'sharp';
 const { BskyAgent } = atproto;
 
-/**
- * Interface defining the configuration for each bot
- */
+
 interface BotConfig {
     handle: string;      // Bot's Bluesky handle
     password: string;    // Bot's password

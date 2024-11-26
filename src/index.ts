@@ -7,11 +7,6 @@ async function main() {
     const totalBots = 5; // Number of bots
     const password = process.env.BSKY_PASSWORD;
 
-    if (!password) {
-      throw new Error('Environment variable for password is not set.');
-    }
-
-    // Read and update the index once
     const indexFile = './lastIndex.txt';
     let currentIndex = 0;
     try {
