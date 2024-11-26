@@ -1,11 +1,15 @@
 import Bot from "./lib/bot.js";
-import { postForBot, getNextImagePath } from "./lib/getPostImage.js";
+import { postForBot } from "./lib/getPostImage.js";
 import fs from 'node:fs/promises';
 
 async function main() {
   try {
     const totalBots = 5; // Number of bots
     const password = process.env.BSKY_PASSWORD;
+
+    if (!password) {
+      throw new Error('BSKY_PASSWORD is not set in the environment variables.');
+    }
 
     const indexFile = './lastIndex.txt';
     let currentIndex = 0;
