@@ -19,16 +19,6 @@ jobs:
       - run: npm ci
       - run: npm run build
 
-      - name: Download images
-        uses: actions/download-artifact@v3
-        with:
-          name: images
-
-      - name: Download index file
-        uses: actions/download-artifact@v3
-        with:
-          name: index-file
-
       - name: Send posts
         run: npm start
         env:
